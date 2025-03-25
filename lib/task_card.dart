@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:tugas1/task.dart';
+import 'package:tugas1/edit_form.dart';
 
 class TaskCard extends StatelessWidget {
   final Task task;
   final void Function(Task) onDelete;
   final void Function(Task) onToggleComplete;
+  final void Function(Task, String) onEdit;
 
   TaskCard({
     required this.task,
     required this.onDelete,
     required this.onToggleComplete,
+    required this.onEdit
   });
 
   @override
@@ -37,6 +40,17 @@ class TaskCard extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            IconButton(
+              icon: Icon(Icons.edit, color: Colors.green),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return EditForm(editTask: onEdit, task: task);
+                  },
+                );
+              },
+            ),
             IconButton(
               icon: Icon(Icons.delete, color: Colors.red),
               onPressed: () => onDelete(task),
